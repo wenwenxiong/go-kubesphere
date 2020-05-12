@@ -27,7 +27,7 @@ func (a *IamRequest) GetPassword() string {
 }
 
 type AccessToken struct {
-	Accesstoken *string `json:"accesstoken,omitempty"`
+	Accesstoken *string `json:"access_token,omitempty"`
 }
 
 func (a *AccessToken) GetAccesstoken() string {
@@ -37,17 +37,23 @@ func (a *AccessToken) GetAccesstoken() string {
 	return *a.Accesstoken
 }
 
-func (s *IamService) GetAccessToken(ctx context.Context, authReq *IamRequest) (*Response, error) {
+
+func (s *IamService) GetAccessToken(ctx context.Context, authReq *IamRequest) (*AccessToken, *Response, error) {
 	u := fmt.Sprintf("/kapis/iam.kubesphere.io/v1alpha2/login")
+	a := new(AccessToken)
 	req, err := s.client.NewRequest("POST", u, authReq)
+
+
+
 	if err != nil {
-		return nil, err
+		return a, nil, err
 	}
 
-	a := new(AccessToken)
+
 	resp, err := s.client.Do(ctx, req, a)
+
 	if err != nil {
-		return resp, err
+		return a, resp, err
 	}
-	return resp, nil
+	return a, resp, nil
 }
