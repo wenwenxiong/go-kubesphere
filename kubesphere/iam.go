@@ -8,8 +8,8 @@ import (
 type IamService service
 
 type IamRequest struct {
-	Username     *string `json:"username,omitempty"`
-	Password     *string `json:"password,omitempty"`
+	Username *string `json:"username,omitempty"`
+	Password *string `json:"password,omitempty"`
 }
 
 func (a *IamRequest) GetUsername() string {
@@ -26,14 +26,26 @@ func (a *IamRequest) GetPassword() string {
 	return *a.Password
 }
 
-func (s *IamService) GetAccessToken(ctx context.Context,  authReq *IamRequest) ( *Response, error) {
+type AccessToken struct {
+	Accesstoken *string `json:"accesstoken,omitempty"`
+}
+
+func (a *AccessToken) GetAccesstoken() string {
+	if a == nil || a.Accesstoken == nil {
+		return ""
+	}
+	return *a.Accesstoken
+}
+
+func (s *IamService) GetAccessToken(ctx context.Context, authReq *IamRequest) (*Response, error) {
 	u := fmt.Sprintf("/kapis/iam.kubesphere.io/v1alpha2/login")
 	req, err := s.client.NewRequest("POST", u, authReq)
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := s.client.Do(ctx, req, u)
+	a := new(AccessToken)
+	resp, err := s.client.Do(ctx, req, a)
 	if err != nil {
 		return resp, err
 	}
