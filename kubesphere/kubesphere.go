@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	defaultBaseURL = "http://127.0.0.1:30881/"
+	defaultBaseURL = "http://192.168.122.162:30881/"
 )
 
 type Client struct {
@@ -234,3 +234,4 @@ func (r *ErrorResponse) Error() string {
 type TwoFactorAuthError ErrorResponse
 
 func (r *TwoFactorAuthError) Error() string { return (*ErrorResponse)(r).Error() }
+

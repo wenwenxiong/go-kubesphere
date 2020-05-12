@@ -12,7 +12,21 @@ type IamRequest struct {
 	Password     *string `json:"password,omitempty"`
 }
 
-func (s *IamService) getAccessToken(ctx context.Context,  authReq *IamRequest) ( *Response, error) {
+func (a *IamRequest) GetUsername() string {
+	if a == nil || a.Username == nil {
+		return ""
+	}
+	return *a.Username
+}
+
+func (a *IamRequest) GetPassword() string {
+	if a == nil || a.Password == nil {
+		return ""
+	}
+	return *a.Password
+}
+
+func (s *IamService) GetAccessToken(ctx context.Context,  authReq *IamRequest) ( *Response, error) {
 	u := fmt.Sprintf("/kapis/iam.kubesphere.io/v1alpha2/login")
 	req, err := s.client.NewRequest("POST", u, authReq)
 	if err != nil {
