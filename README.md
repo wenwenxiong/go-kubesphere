@@ -105,4 +105,4 @@ xww@xww-NUC8i5BEH:~/gowork/src/github.com/wenwenxiong/go-kubesphere$
 
 ### 效果图
 
-![Screenshot from 2020-05-13 18-14-53](/home/xww/Pictures/Screenshot from 2020-05-13 18-14-53.png)
+![01](https://github.com/wenwenxiong/go-kubesphere/blob/master/images/01.png)
