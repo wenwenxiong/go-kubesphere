@@ -44,6 +44,20 @@ func NewClient(httpClient *http.Client) *Client {
 
 }
 
+func NewClientSpecify(httpClient *http.Client, apiGateway string) *Client {
+	if httpClient == nil {
+		httpClient = &http.Client{}
+	}
+	baseURL, _ := url.Parse(apiGateway)
+
+	c := &Client{client: httpClient, BaseURL: baseURL}
+	c.common.client = c
+	c.Iams = (*IamService)(&c.common)
+	c.Openpitrixs = (*OpenpitrixService)(&c.common)
+	return c
+
+}
+
 func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Request, error) {
 	if !strings.HasSuffix(c.BaseURL.Path, "/") {
 		return nil, fmt.Errorf("BaseURL must have a trailing slash, but %q does not", c.BaseURL)
